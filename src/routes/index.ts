@@ -1,11 +1,16 @@
-import express, { Application, Request, Response } from 'express'
+import { Request, Response, Router } from 'express'
+import home from './home'
+import aboutMe from './aboutMe'
+import projects from './projects'
+import skills from './skills'
+import tecnologies from './skills'
 
-const routes = (app: Application) => {
+const routes = (app: Router) => {
   app.route('/').get((req: Request, res: Response) => {
-    res.status(200).send('Hello World!')
+    res.status(200).send('devCMS api')
   })
 
-  app.use(express.json())
+  app.use(home, aboutMe, projects, skills, tecnologies)
 }
 
 export default routes
