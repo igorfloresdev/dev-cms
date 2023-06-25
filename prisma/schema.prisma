@@ -10,60 +10,54 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Home {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  title      String?  @db.VarChar(255)
-  subtitle   String?  @db.VarChar(255)
-  image_url  String?  @db.VarChar(255)
-}
-
-model About_Me {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  text       String?  @db.Text
+model Parameters {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now()) @map("createdAt")
+  updatedAt    DateTime @updatedAt @map("updatedAt")
+  homeTitle    String?  @db.VarChar(255)
+  homeSubtitle String?  @db.VarChar(255)
+  homeImageUrl String?  @db.VarChar(255)
+  aboutMeText  String?  @db.Text
 }
 
 model Skills {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  name       String?  @unique @db.VarChar(255)
-  image_url  String   @db.VarChar(255)
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String?  @unique @db.VarChar(255)
+  imageUrl  String   @db.VarChar(255)
 }
 
 model Projects {
-  id                String   @id @default(uuid())
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
-  title             String   @unique @db.VarChar(255)
-  description       String?  @db.Text
-  project_url       String?  @db.VarChar(255)
-  repo_frontend_url String?  @db.VarChar(255)
-  repo_backend_url  String?  @db.VarChar(255)
-  repo_mobile_url   String?  @db.VarChar(255)
-  image_url         String?  @db.VarChar(255)
+  id              String   @id @default(uuid())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  title           String   @unique @db.VarChar(255)
+  description     String?  @db.Text
+  projectUrl      String?  @db.VarChar(255)
+  repoFrontEndUrl String?  @db.VarChar(255)
+  repoBackEndUrl  String?  @db.VarChar(255)
+  repoMobileUrl   String?  @db.VarChar(255)
+  imageUrl        String?  @db.VarChar(255)
 
-  tecnologies Projects_Tecnologies[]
+  tecnologies ProjectsTecnologies[]
 }
 
 model Tecnologies {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  name       String   @unique @db.VarChar(255)
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique @db.VarChar(255)
 
-  projects Projects_Tecnologies[]
+  projects ProjectsTecnologies[]
 }
 
-model Projects_Tecnologies {
-  project      Projects    @relation(fields: [project_id], references: [id])
-  project_id   String
-  tecnology    Tecnologies @relation(fields: [tecnology_id], references: [id])
-  tecnology_id String
-  assigned_at  DateTime    @default(now())
+model ProjectsTecnologies {
+  project     Projects    @relation(fields: [projectId], references: [id])
+  projectId   String
+  tecnology   Tecnologies @relation(fields: [tecnologyId], references: [id])
+  tecnologyId String
+  assignedAt  DateTime    @default(now())
 
-  @@id([project_id, tecnology_id])
+  @@id([projectId, tecnologyId])
 }
